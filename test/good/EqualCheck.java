@@ -10,7 +10,7 @@ class C {
   public boolean test() {
       int a = 1;
       int b = 1;
-      boolean res = (a==b);
+      boolean res = a==b;
       return res;
   }
 }
