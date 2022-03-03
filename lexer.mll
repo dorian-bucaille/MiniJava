@@ -40,6 +40,7 @@ rule get_token = parse
   | ';'       { SEMICOLON }
   | '='       { ASSIGN }
   | "=="      { EQ }
+  | "for"     { FOR }
   | ","       { COMMA }
   | "true"    { BOOL_CONST true }
   | "false"   { BOOL_CONST false }

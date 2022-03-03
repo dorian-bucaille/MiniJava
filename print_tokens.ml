@@ -52,7 +52,8 @@ let print_token show_loc out = function
      fprintf out "NOT"
   | LT ->
      fprintf out "LT"
-   
+  | FOR ->
+      fprintf out "FOR"
   | EQ ->
       fprintf out "EQ"
   | AND ->
