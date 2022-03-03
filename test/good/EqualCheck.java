@@ -3,7 +3,6 @@ public class EqualCheck {
       public static void main(String[] args) {
         System.out.println(new C().test());
     }
-  
 }
 
 class C {
