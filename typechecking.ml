@@ -146,6 +146,7 @@ and typecheck_expression (cenv : class_env) (venv : variable_env) (vinit : S.t)
         | OpMul -> TypInt, TypInt
         | OpLt  -> TypInt, TypBool
         | OpAnd -> TypBool, TypBool
+        | OpEq -> TypInt, TypBool
       in
       typecheck_expression_expecting cenv venv vinit instanceof expected e1;
       typecheck_expression_expecting cenv venv vinit instanceof expected e2;
