@@ -148,6 +148,7 @@ raw_expression:
 | LT    { OpLt }
 | AND   { OpAnd }
 | EQ { OpEq }
+| OR { OpOr }
 
 instruction:
 | b = block

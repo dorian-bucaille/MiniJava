@@ -138,6 +138,12 @@ and typecheck_expression (cenv : class_env) (venv : variable_env) (vinit : S.t)
       typecheck_expression_expecting cenv venv vinit instanceof expected e;
       returned
 
+  | EBinOp (OpEq, e1, e2) ->
+    let t1 = typecheck_expression cenv venv vinit instanceof e1 in
+    let t2 = typecheck_expression cenv venv vinit instanceof e2 in
+    if (compatible t1 t2 instanceof) || (compatible t2 t1 instanceof) then TypBool
+    else error e "These types are incompatible for `==`"
+
   | EBinOp (op, e1, e2) ->
       let expected, returned =
         match op with
@@ -146,7 +152,8 @@ and typecheck_expression (cenv : class_env) (venv : variable_env) (vinit : S.t)
         | OpMul -> TypInt, TypInt
         | OpLt  -> TypInt, TypBool
         | OpAnd -> TypBool, TypBool
-        | OpEq -> TypInt, TypBool
+        | OpEq -> TypBool, TypBool
+        | OpOr -> TypBool, TypBool
       in
       typecheck_expression_expecting cenv venv vinit instanceof expected e1;
       typecheck_expression_expecting cenv venv vinit instanceof expected e2;
