@@ -8,7 +8,7 @@
 %token INTEGER BOOLEAN
 %token <string Location.t> IDENT
 %token CLASS PUBLIC STATIC VOID MAIN STRING EXTENDS RETURN
-%token PLUS MINUS TIMES NOT LT AND EQ
+%token PLUS MINUS TIMES NOT LT AND EQ OR
 %token COMMA SEMICOLON
 %token ASSIGN PLUSPLUS
 %token LPAREN RPAREN LBRACKET RBRACKET LBRACE RBRACE
@@ -147,8 +147,8 @@ raw_expression:
 | TIMES { OpMul }
 | LT    { OpLt }
 | AND   { OpAnd }
-| EQ { OpEq }
-| OR { OpOr }
+| EQ    { OpEq }
+| OR    { OpOr }
 
 instruction:
 | b = block
@@ -156,6 +156,23 @@ instruction:
 
 | id = IDENT ASSIGN e = expression SEMICOLON
    { ISetVar (id, e) }
+
+| id = IDENT PLUSPLUS
+   { ISetVar (
+      id, 
+      Location.make $startpos $endpos (
+         EBinOp (
+            OpAdd,
+            ( Location.make $startpos $endpos
+               (EGetVar (id))
+            ),
+            ( Location.make $startpos $endpos
+               (EConst (ConstInt 1l))
+            )
+         )
+      )
+   )
+   }
 
 | a = IDENT LBRACKET i = expression RBRACKET ASSIGN e = expression SEMICOLON
    { IArraySet (a, i, e) }
