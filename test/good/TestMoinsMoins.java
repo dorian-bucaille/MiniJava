@@ -1,0 +1,18 @@
+class TestMoinsMoins {
+  public static void main(String[] args) {
+      System.out.println(new Main().test());          
+  }
+}
+
+class Main {
+  public int test(){
+      int res ;
+      res = 8;
+
+      System.out.println(res);
+      res--;
+      System.out.println(res);
+  
+      return 0;
+  }
+}
