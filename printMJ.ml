@@ -115,8 +115,27 @@ and expr6 out = function
   | e ->
      expr5 out e
 
-and expr out e =
-  expr6 out e
+and expr7 out = function
+   | EBinOp (OpEq as op, e1, e2) ->
+      fprintf out "%a %a %a"
+      expr7 e1
+      binop op
+      expr7 e2
+   | e ->
+      expr6 out e
+
+
+and expr8 out = function
+   | EBinOp (OpOr as op, e1, e2) ->
+      fprintf out "%a %a %a"
+      expr8 e1
+      binop op
+      expr8 e2
+   | e ->
+      expr7 out e
+     
+   and expr out e =
+      expr8 out e
 
 (** [binop out ins] prints the instruction [ins] on the output channel [out]. *)
 let rec instr out = function
