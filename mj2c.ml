@@ -471,6 +471,32 @@ let expr2c
   in
   expr2c out expr
 
+(** [assign2c m class_info out ass] transpiles the instruction [ass], in the context of method [m] and [class_info],
+    to C on the output channel [out]. *)
+    let assign2c
+    (method_name : string)
+    (class_info : ClassInfo.t)
+    out
+    (ass : MJ.assignation)
+  : unit =
+let rec assign2c out ass =
+  match ass with
+  | ISetVar (x, e) ->
+     let x_class = ClassInfo.class_of method_name x class_info in
+     let e_class = get_class method_name class_info e in
+     fprintf out "%a = %s%a"
+       (var2c method_name class_info) x
+       (if x_class <> e_class then sprintf "(struct %s*) " x_class else "")
+       (expr2c method_name class_info) e
+
+  | ISetVarPlus (x) ->
+     fprintf out "%a ++"
+     (var2c method_name class_info) x
+
+in
+assign2c out ass
+
+
 (** [instr2c m class_info out ins] transpiles the instruction [ins], in the context of method [m] and [class_info],
     to C on the output channel [out]. *)
 let instr2c
@@ -481,14 +507,6 @@ let instr2c
     : unit =
   let rec instr2c out ins =
     match ins with
-    | ISetVar (x, e) ->
-       let x_class = ClassInfo.class_of method_name x class_info in
-       let e_class = get_class method_name class_info e in
-       fprintf out "%a = %s%a;"
-         (var2c method_name class_info) x
-         (if x_class <> e_class then sprintf "(struct %s*) " x_class else "")
-         (expr2c method_name class_info) e
-
     | IArraySet (id, ei, ev) ->
        fprintf out "(%a)->array[%a] = %a;"
          (var2c method_name class_info) id
@@ -507,10 +525,26 @@ let instr2c
          (expr2c method_name class_info) c
          instr2c i
 
+    | IFor (id1, e1, c, a, loop) ->
+       let id1_class = ClassInfo.class_of method_name id1 class_info in
+       let e1_class = get_class method_name class_info e1 in
+       fprintf out "for(%a = %s%a ; %a ; %a) %t%a"
+         (var2c method_name class_info) id1
+         (if id1_class <> e1_class then sprintf "(struct %s*) " id1_class else "")
+         (expr2c method_name class_info) e1
+         (expr2c method_name class_info) c 
+         (indent indentation (assign2c method_name class_info)) a
+         nl
+         instr2c loop
+
     | IBlock is ->
        fprintf out "{%a%t}"
          (indent indentation (sep_list nl instr2c)) is
          nl
+
+    | IAssign a ->
+       fprintf out "%a;"
+         (indent indentation (assign2c method_name class_info)) a
 
     | ISyso e ->
        fprintf out "printf(\"%%d\\n\", %a);"

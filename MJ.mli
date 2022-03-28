@@ -30,12 +30,17 @@ and binop = LMJ.binop =
 
 and unop = LMJ.unop = UOpNot
 
+and assignation = 
+  | ISetVar of identifier * expression
+  | ISetVarPlus of identifier
+
 and instruction =
   | IBlock of instruction list
   | IIf of expression * instruction * instruction
   | IWhile of expression * instruction
+  | IAssign of assignation
   | ISyso of expression
-  | ISetVar of identifier * expression
+  | IFor of identifier * expression * expression * assignation * instruction
   | IArraySet of identifier * expression * expression
 
 and typ =

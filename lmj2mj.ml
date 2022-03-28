@@ -14,12 +14,17 @@ and translate_raw_expression = function
 | LMJ.EThis -> MJ.EThis
 | LMJ.EObjectAlloc id -> MJ.EObjectAlloc (Location.content id)
 
+and translate_assignation = function
+| LMJ.ISetVar (id, e) -> MJ.ISetVar (Location.content id, translate_expression e)
+| LMJ.ISetVarPlus (id) -> MJ.ISetVarPlus (Location.content id)
+
 and translate_instruction = function
 | LMJ.IBlock is -> MJ.IBlock (List.map translate_instruction is)
+| LMJ.IAssign a -> MJ.IAssign (translate_assignation a)
 | LMJ.IIf (c, i1, i2) -> MJ.IIf (translate_expression c, translate_instruction i1, translate_instruction i2)
 | LMJ.IWhile (c, i) -> MJ.IWhile (translate_expression c, translate_instruction i)
 | LMJ.ISyso e -> MJ.ISyso (translate_expression e)
-| LMJ.ISetVar (id, e) -> MJ.ISetVar (Location.content id, translate_expression e)
+| LMJ.IFor (id1, e1, c, a, loop) -> MJ.IFor (Location.content id1, translate_expression e1, translate_expression c, translate_assignation a, translate_instruction loop)
 | LMJ.IArraySet (a, e1, e2) -> MJ.IArraySet (Location.content a, translate_expression e1, translate_expression e2)
 
 let translate_typ = function

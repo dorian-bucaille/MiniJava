@@ -150,11 +150,8 @@ raw_expression:
 | EQ    { OpEq }
 | OR    { OpOr }
 
-instruction:
-| b = block
-   { b }
-
-| id = IDENT ASSIGN e = expression SEMICOLON
+assignation:
+| id = IDENT ASSIGN e = expression
    { ISetVar (id, e) }
 
 | id = IDENT PLUSPLUS
@@ -170,12 +167,12 @@ instruction:
                (EConst (ConstInt 1l))
             )
          )
-      )
+      ) 
    )
    }
 
-| id = IDENT PLUSEQ i_const = INT_CONST SEMICOLON
-      { ISetVar (
+| id = IDENT PLUSEQ i_const = INT_CONST
+   { ISetVar (
       id, 
       Location.make $startpos $endpos (
          EBinOp (
@@ -191,7 +188,7 @@ instruction:
    )
    }
 
-| id = IDENT MINUSEQ i_const = INT_CONST SEMICOLON
+| id = IDENT MINUSEQ i_const = INT_CONST
       { ISetVar (
       id, 
       Location.make $startpos $endpos (
@@ -208,6 +205,13 @@ instruction:
    )
    }
 
+instruction:
+| b = block
+   { b }
+
+| a = assignation SEMICOLON
+   { IAssign (a) }
+
 | a = IDENT LBRACKET i = expression RBRACKET ASSIGN e = expression SEMICOLON
    { IArraySet (a, i, e) }
 
@@ -220,8 +224,8 @@ instruction:
 | WHILE LPAREN c = expression RPAREN i = instruction
    { IWhile (c, i) }
 
-| FOR LPAREN id1 = IDENT ASSIGN eid1 = expression SEMICOLON cd1 = expression SEMICOLON id2 = IDENT ASSIGN inc = expression RPAREN i = instruction
-   { (IBlock [ISetVar(id1, eid1) ; IWhile(cd1, IBlock([i ; ISetVar(id2, inc)]))])     }
+| FOR LPAREN id1 = IDENT ASSIGN e1 = expression SEMICOLON c = expression SEMICOLON a = assignation RPAREN inc = instruction
+   { IFor (id1, e1, c, a, inc) }
 
 block:
 | LBRACE is = list(instruction) RBRACE
