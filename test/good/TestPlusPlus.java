@@ -10,8 +10,6 @@ class Main {
       res = 5;
 
       System.out.println(res);
-      res--;
-      System.out.println(res);
       res++;
       System.out.println(res);
   
