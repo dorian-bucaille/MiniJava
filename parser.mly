@@ -10,7 +10,7 @@
 %token CLASS PUBLIC STATIC VOID MAIN STRING EXTENDS RETURN
 %token PLUS MINUS TIMES NOT LT AND EQ OR
 %token COMMA SEMICOLON
-%token ASSIGN PLUSPLUS
+%token ASSIGN PLUSPLUS PLUSEQ MINUSEQ
 %token LPAREN RPAREN LBRACKET RBRACKET LBRACE RBRACE
 %token THIS NEW DOT LENGTH
 %token SYSO
@@ -171,6 +171,40 @@ instruction:
             )
          )
       )
+   )
+   }
+
+| id = IDENT PLUSEQ i_const = INT_CONST SEMICOLON
+      { ISetVar (
+      id, 
+      Location.make $startpos $endpos (
+         EBinOp (
+            OpAdd,
+            ( Location.make $startpos $endpos
+               (EGetVar (id))
+            ),
+            ( Location.make $startpos $endpos
+               (EConst (ConstInt i_const))
+            )
+         )
+      ) 
+   )
+   }
+
+| id = IDENT MINUSEQ i_const = INT_CONST SEMICOLON
+      { ISetVar (
+      id, 
+      Location.make $startpos $endpos (
+         EBinOp (
+            OpSub,
+            ( Location.make $startpos $endpos
+               (EGetVar (id))
+            ),
+            ( Location.make $startpos $endpos
+               (EConst (ConstInt i_const))
+            )
+         )
+      ) 
    )
    }
 
