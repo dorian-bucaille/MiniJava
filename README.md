@@ -4,6 +4,16 @@
 to [C](https://en.wikipedia.org/wiki/C_%28programming_language%29).\
 The construction of this transpiler is documented on [www.mrcoder.org](https://www.mrcoder.org/en/compiler/minijava/).
 
+## What has been added in this branch
+
+Here are the features that have been added in this branch:
+- '==' operator
+- '++' operator
+- '+=' operator
+- '-=' operator
+- '||' operator
+- 'for' loop
+
 ### Install Dependencies
 
 #### Linux (Ubuntu)
