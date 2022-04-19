@@ -17,6 +17,7 @@ and translate_raw_expression = function
 and translate_assignation = function
 | LMJ.ISetVar (id, e) -> MJ.ISetVar (Location.content id, translate_expression e)
 | LMJ.ISetVarPlus (id) -> MJ.ISetVarPlus (Location.content id)
+| LMJ.ISetVarMinus (id) -> MJ.ISetVarMinus (Location.content id)
 
 and translate_instruction = function
 | LMJ.IBlock is -> MJ.IBlock (List.map translate_instruction is)

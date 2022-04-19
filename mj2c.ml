@@ -492,6 +492,10 @@ let rec assign2c out ass =
   | ISetVarPlus (x) ->
      fprintf out "%a ++"
      (var2c method_name class_info) x
+  
+  | ISetVarMinus (x) ->
+      fprintf out "%a --"
+      (var2c method_name class_info) x
 
 in
 assign2c out ass

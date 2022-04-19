@@ -40,6 +40,7 @@ and unop = UOpNot (** Unary operator [!]. *)
 and assignation = 
   | ISetVar of identifier * expression (** [ISetVar (id, e)] represents the instruction [id = e;]. *)
   | ISetVarPlus of identifier (** [ISetVarPlus] (id) represents the instruction [id ++]. *)
+  | ISetVarMinus of identifier (** [ISetVarMinus] (id) represents the instruction [id --]. *)
 
 and instruction =
   | IBlock of instruction list (** [IBlock [i1; i2; ...; in]] represents the instruction [{ i1 i2 ... in }]. *)

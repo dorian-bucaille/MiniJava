@@ -198,6 +198,11 @@ let typecheck_assignation (cenv : class_env) (venv : variable_env) (vinit : S.t)
        S.add (Location.content v) vinit
      in
      vinit
+  | ISetVarMinus (v) ->
+     let vinit =
+       S.add (Location.content v) vinit
+     in
+     vinit
 (** [typecheck_instruction cenv venv vinit instanceof inst] checks, using the environments [cenv] and
     [venv], the set of initialized variables [vinit] and the [instanceof] function,
     that the instruction [inst] is well typed.

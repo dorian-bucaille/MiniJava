@@ -33,6 +33,7 @@ and unop = LMJ.unop = UOpNot
 and assignation = 
   | ISetVar of identifier * expression
   | ISetVarPlus of identifier
+  | ISetVarMinus of identifier
 
 and instruction =
   | IBlock of instruction list

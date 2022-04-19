@@ -10,7 +10,7 @@
 %token CLASS PUBLIC STATIC VOID MAIN STRING EXTENDS RETURN
 %token PLUS MINUS TIMES NOT LT AND EQ OR
 %token COMMA SEMICOLON
-%token ASSIGN PLUSPLUS PLUSEQ MINUSEQ
+%token ASSIGN PLUSPLUS MINUSMINUS PLUSEQ MINUSEQ
 %token LPAREN RPAREN LBRACKET RBRACKET LBRACE RBRACE
 %token THIS NEW DOT LENGTH
 %token SYSO
@@ -160,6 +160,23 @@ assignation:
       Location.make $startpos $endpos (
          EBinOp (
             OpAdd,
+            ( Location.make $startpos $endpos
+               (EGetVar (id))
+            ),
+            ( Location.make $startpos $endpos
+               (EConst (ConstInt 1l))
+            )
+         )
+      ) 
+   )
+   }
+
+| id = IDENT MINUSMINUS
+   { ISetVar (
+      id, 
+      Location.make $startpos $endpos (
+         EBinOp (
+            OpSub,
             ( Location.make $startpos $endpos
                (EGetVar (id))
             ),

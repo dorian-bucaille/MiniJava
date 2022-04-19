@@ -9,6 +9,7 @@ The construction of this transpiler is documented on [www.mrcoder.org](https://w
 Here are the features that have been added in this branch:
 - '==' operator
 - '++' operator
+- '--' operator
 - '+=' operator
 - '-=' operator
 - '||' operator

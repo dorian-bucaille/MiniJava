@@ -1,4 +1,4 @@
-class TestPlusPlus {
+class TestMoinsMoins {
   public static void main(String[] args) {
       System.out.println(new Main().test());          
   }
