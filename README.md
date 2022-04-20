@@ -13,6 +13,10 @@ Here are the features that have been added in this branch:
 - '+=' operator
 - '-=' operator
 - '||' operator
+- '>' operator
+- '<=' operator
+- '>=' operator
+- '!=' operator
 - 'for' loop
 
 ### Install Dependencies

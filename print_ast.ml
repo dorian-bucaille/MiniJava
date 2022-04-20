@@ -79,6 +79,14 @@ let print_binop out = function
      fprintf out "OpMul"
   | OpLt  ->
      fprintf out "OpLt"
+  | OpGt  ->
+      fprintf out "OpGt"
+  | OpLe ->
+      fprintf out "OpLe"
+  | OpGe ->
+      fprintf out "OpGe"
+  | OpNe  ->
+      fprintf out "OpNe"
   | OpAnd ->
      fprintf out "OpAnd"
   | OpOr ->

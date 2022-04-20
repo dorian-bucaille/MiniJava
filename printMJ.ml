@@ -23,6 +23,14 @@ let binop out = function
      fprintf out "*"
   | OpLt  ->
      fprintf out "<"
+   | OpLe ->
+       fprintf out "<="
+   | OpGt  ->
+         fprintf out ">"
+   | OpGe -> 
+         fprintf out ">="
+   | OpNe  ->
+         fprintf out "!="
   | OpAnd ->
      fprintf out "&&"
    | OpEq ->
@@ -134,8 +142,46 @@ and expr8 out = function
    | e ->
       expr7 out e
      
-   and expr out e =
-      expr8 out e
+
+
+and expr9 out = function
+  | EBinOp ((OpGt | OpAnd) as op, e1, e2) ->
+     fprintf out "%a %a %a"
+       expr9 e1
+       binop op
+       expr9 e2
+  | e ->
+     expr8 out e
+
+and expr10 out = function
+  | EBinOp (OpNe as op, e1, e2) ->
+     fprintf out "%a %a %a"
+       expr10 e1
+       binop op
+       expr10 e2
+  | e ->
+     expr9 out e
+
+and expr11 out = function
+  | EBinOp (OpLe as op, e1, e2) ->
+     fprintf out "%a %a %a"
+       expr11 e1
+       binop op
+       expr11 e2
+  | e ->
+     expr10 out e
+
+and expr12 out = function
+  | EBinOp (OpGe as op, e1, e2) ->
+     fprintf out "%a %a %a"
+       expr12 e1
+       binop op
+       expr12 e2
+  | e ->
+     expr11 out e
+
+        and expr out e =
+      expr12 out e
 
 let rec assign out = function
   | ISetVar (x, e) ->
