@@ -7,11 +7,14 @@ class TestLEQ {
 class Main {
   public int test(){
       int a ;
-      int b ;
-      boolean res;
+      int res;
       a = 5;
-      b = 6;
-      res = a <= b;
+
+      if(a <= 6) {
+          res = 1;
+      } else {
+          res = 0;
+      }
 
       System.out.println(res);
  
